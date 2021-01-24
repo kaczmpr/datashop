@@ -1,19 +1,18 @@
 from flask import Flask, request, jsonify
 from dataclasses import dataclass
 from flask_sqlalchemy import SQLAlchemy
-from flask_marshmallow import Marshmallow
+#from config import Config
 import os
 
 # Init app
 app = Flask(__name__)
+#app.config.from_object(Config)
 app.config["DEBUG"] = True
 
 #Database
 app.config['SQLALCHEMY_DATABASE_URI'] = 'snowflake://admin:Datashop1!@uu39760.west-europe.azure/DATASHOP_DB/DEVELOP?warehouse=COMPUTE_WH&role=SYSADMIN'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
-ma = Marshmallow(app)
-
 
 # Product Class/Model
 @dataclass
