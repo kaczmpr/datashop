@@ -1,0 +1,10 @@
+/Include
+/Lib
+/Scripts
+/tcl
+/.idea
+/LICENSE.txt
+*.pyc
+*.pyo
+__pycache__/
+*.py[cod]
