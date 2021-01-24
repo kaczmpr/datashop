@@ -1,48 +1,14 @@
 from flask import Flask, request, jsonify
 from dataclasses import dataclass
 from flask_sqlalchemy import SQLAlchemy
-#from config import Config
 import os
 
 # Init app
 app = Flask(__name__)
-#app.config.from_object(Config)
-app.config["DEBUG"] = True
+app.config.from_object('config')
 
-#Database
-app.config['SQLALCHEMY_DATABASE_URI'] = 'snowflake://admin:Datashop1!@uu39760.west-europe.azure/DATASHOP_DB/DEVELOP?warehouse=COMPUTE_WH&role=SYSADMIN'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
-# Product Class/Model
-@dataclass
-class Product(db.Model):
-    id: int
-    name: str
-    description: str
-    price: float
-    qty: int
 
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(100), unique=True)
-    description = db.Column(db.String(200))
-    price = db.Column(db.Float)
-    qty = db.Column(db.Integer)
-
-    def __init__(self, name, description, price, qty):
-        self.name = name
-        self.description = description
-        self.price = price
-        self.qty = qty
-
-
-# Get All Products
-@app.route('/product', methods=['GET'])
-def get_products():
-    all_products = Product.query.all()
-    return jsonify(all_products)
-
-
-# Run Server
-if __name__ == '__main__':
-    app.run(debug=True)
+from app.api import bp as api_bp
+app.register_blueprint(api_bp, url_prefix='/api')
