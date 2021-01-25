@@ -1,14 +1,24 @@
-from flask import Flask, request, jsonify
-from dataclasses import dataclass
+from flask import Flask, current_app
 from flask_sqlalchemy import SQLAlchemy
+from config import Config
+from flask_migrate import Migrate
 import os
 
-# Init app
-app = Flask(__name__)
-app.config.from_object('config')
 
-db = SQLAlchemy(app)
+db = SQLAlchemy()
+migrate = Migrate()
 
 
-from app.api import bp as api_bp
-app.register_blueprint(api_bp, url_prefix='/api')
+def create_app(config_class=Config):
+    app = Flask(__name__)
+    app.config.from_object(config_class)
+    db.init_app(app)
+    migrate.init_app(app, db)
+
+    from app.api import bp as api_bp
+    app.register_blueprint(api_bp, url_prefix='/api')
+
+    return app
+
+
+from app import models
