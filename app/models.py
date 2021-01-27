@@ -12,7 +12,7 @@ class Product(db.Model):
     qty: int
 
     __tablename__ = 'product'
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.String(100), unique=True)
     description = db.Column(db.String(200))
     price = db.Column(db.Float)
@@ -46,7 +46,8 @@ class Shop(db.Model):
     lat = db.Column(db.Float)
     long = db.Column(db.Float)
 
-    def __init__(self, owner_id, city_id, address, lat, long):
+    def __init__(self, id, owner_id, city_id, address, lat, long):
+        self.id = id
         self.owner_id = owner_id
         self.city_id = city_id
         self.address = address

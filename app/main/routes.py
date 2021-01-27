@@ -1,7 +1,8 @@
-from flask import jsonify, render_template, url_for, request, current_app
+from flask import jsonify, render_template, url_for, request, current_app, redirect
 from app import db
 from app.main import bp
-from app.models import Product
+from app.models import Product, Shop
+from app.main.forms import EditShopForm
 
 
 @bp.route('/', methods=['GET','POST'])
@@ -12,7 +13,14 @@ def index():
 
 @bp.route('/shop', methods=['GET', 'POST'])
 def shop():
-    return render_template('shop.html', title='Shop')
+    form = EditShopForm()
+    if form.validate_on_submit():
+        shop = Shop(id=form.id.data, owner_id=form.owner_id.data, city_id=form.city_id.data, address=form.address.data,
+                    lat=form.lat.data, long=form.long.data)
+        db.session.add(shop)
+        db.session.commit()
+        return redirect(url_for('main.index'))
+    return render_template('shop.html', title='Shop', form=form)
 
 
 @bp.route('/product', methods=['GET', 'POST'])
