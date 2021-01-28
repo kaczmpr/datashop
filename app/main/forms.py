@@ -6,11 +6,17 @@ from flask import request
 
 
 class EditShopForm(FlaskForm):
-    id = IntegerField('Shop ID', validators=[DataRequired()])
-    owner_id = IntegerField('Owner ID', validators=[DataRequired()])
-    city_id = IntegerField('City ID', validators=[DataRequired()])
+    owner = StringField('Owner', validators=[DataRequired()])
+    city = StringField('City', validators=[DataRequired()])
+    segment = StringField('Segment')
     address = StringField('Street, number', validators=[DataRequired()])
     lat = FloatField('Latitude')
     long = FloatField('Longtitude')
     submit = SubmitField('Submit')
 
+
+class EditProductForm(FlaskForm):
+    name = StringField('Name', validators=[DataRequired()])
+    description = StringField('Description', validators=[DataRequired()])
+    price = FloatField('Price', validators=[DataRequired()])
+    qty = FloatField('Quantity', validators=[DataRequired()])

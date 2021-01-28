@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 from app import db
+from sqlalchemy import Sequence
 import datetime
 
 # Product Class/Model
@@ -7,22 +8,25 @@ import datetime
 class Product(db.Model):
     id: int
     name: str
-    description: str
+    category: str
     price: float
     qty: int
+    subcategory: str
 
     __tablename__ = 'product'
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    id = db.Column(db.Integer, Sequence('seq_product'), primary_key=True)
     name = db.Column(db.String(100), unique=True)
-    description = db.Column(db.String(200))
+    category = db.Column(db.String(200))
     price = db.Column(db.Float)
     qty = db.Column(db.Integer)
+    subcategory = db.Column(db.String(100))
 
-    def __init__(self, name, description, price, qty):
+    def __init__(self, name, category, price, qty, subcategory):
         self.name = name
-        self.description = description
+        self.category = category
         self.price = price
         self.qty = qty
+        self.subcategory = subcategory
 
     def __repr__(self):
         return '<Product {id}>'.format(id=self.id)
@@ -32,24 +36,26 @@ class Product(db.Model):
 @dataclass
 class Shop(db.Model):
     id: int
-    owner_id: int
-    city_id: int
+    owner: str
+    city: str
+    segment: str
     address: str
     lat: float
     long: float
 
     __tablename__ = 'shop'
-    id = db.Column(db.Integer, primary_key=True)
-    owner_id = db.Column(db.Integer)
-    city_id = db.Column(db.Integer)
+    id = db.Column(db.Integer, Sequence('seq_shop'), primary_key=True)
+    owner = db.Column(db.String)
+    city = db.Column(db.String)
+    segment = db.Column(db.String)
     address = db.Column(db.String)
     lat = db.Column(db.Float)
     long = db.Column(db.Float)
 
-    def __init__(self, id, owner_id, city_id, address, lat, long):
-        self.id = id
-        self.owner_id = owner_id
-        self.city_id = city_id
+    def __init__(self, owner, city, segment, address, lat, long):
+        self.owner = owner
+        self.city = city
+        self.segment = segment
         self.address = address
         self.lat = lat
         self.long = long
@@ -67,21 +73,24 @@ class Receipt(db.Model):
     product_id: int
     value: float
     qty: float
+    vat: float
 
     __tablename__ = 'receipt'
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, Sequence('seq_receipt'), primary_key=True)
     shop_id = db.Column(db.Integer, db.ForeignKey('shop.id'), nullable=False)
     datetime = db.Column(db.DateTime, nullable=False)
     product_id = db.Column(db.Integer, db.ForeignKey('product.id'), nullable=False)
     value = db.Column(db.Float, nullable=False)
     qty = db.Column(db.Float, nullable=False)
+    vat = db.Column(db.Float, nullable=False)
 
-    def __init__(self, shop_id, datetime, product_id, value, qty):
+    def __init__(self, shop_id, datetime, product_id, value, qty, vat):
         self.shop_id = shop_id
         self.datetime = datetime
         self.product_id = product_id
         self.value = value
         self.qty = qty
+        self.vat = vat
 
     def __repr__(self):
         return '<Receipt {id}>'.format(id=self.id)

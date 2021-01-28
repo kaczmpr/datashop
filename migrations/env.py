@@ -8,9 +8,10 @@ from sqlalchemy import pool
 from flask import current_app
 
 from alembic import context
+from alembic.ddl.impl import DefaultImpl
 
-
-
+class SnowflakeImpl(DefaultImpl):
+    __dialect__ = 'snowflake'
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
 config = context.config
@@ -33,11 +34,6 @@ target_metadata = current_app.extensions['migrate'].db.metadata
 # can be acquired:
 # my_important_option = config.get_main_option("my_important_option")
 # ... etc.
-
-from alembic.ddl.impl import DefaultImpl
-
-class SnowflakeImpl(DefaultImpl):
-    __dialect__ = 'snowflake'
 
 
 def run_migrations_offline():

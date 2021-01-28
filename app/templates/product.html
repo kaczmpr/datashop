@@ -1,14 +1,17 @@
 {% extends "base.html" %}
+{% import 'bootstrap/wtf.html' as wtf %}
 
 {% block app_content %}
-<h1>Hello World!</h1>
-<p>
-<h1>Hello World!</h1>
-</p>
-<p>
-<h1>Hello World!</h1>
-</p>
-<p>
-<h1>Hello World!</h1>
-</p>
+    <h1>Here you can add data about products to database. Please fill the form</h1>
+    <p>
+    </p>
+    <div class="row">
+        <div class="col-md-4">
+            <p>
+                    <form action="{{ url_for('main.product') }}" method="post">
+                        {{ wtf.quick_form(form) }}
+                    </form>
+            </p>
+        </div>
+    </div>
 {% endblock %}

@@ -1,16 +1,16 @@
-"""'init'
+"""Init
 
-Revision ID: d2796fedb05d
+Revision ID: 441ae047adaf
 Revises: 
-Create Date: 2021-01-25 19:25:30.558412
+Create Date: 2021-01-28 18:59:32.723266
 
 """
 from alembic import op
 import sqlalchemy as sa
-
+import snowflake
 
 # revision identifiers, used by Alembic.
-revision = 'd2796fedb05d'
+revision = '441ae047adaf'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -21,17 +21,21 @@ def upgrade():
     op.create_table('product',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('name', sa.String(length=100), nullable=True),
-    sa.Column('description', sa.String(length=200), nullable=True),
+    sa.Column('category', sa.String(length=200), nullable=True),
     sa.Column('price', sa.Float(), nullable=True),
     sa.Column('qty', sa.Integer(), nullable=True),
+    sa.Column('subcategory', sa.String(length=100), nullable=True),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('name')
     )
     op.create_table('shop',
     sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('owner_id', sa.Integer(), nullable=True),
-    sa.Column('city_id', sa.Integer(), nullable=True),
+    sa.Column('owner', sa.String(), nullable=True),
+    sa.Column('city', sa.String(), nullable=True),
+    sa.Column('segment', sa.String(), nullable=True),
     sa.Column('address', sa.String(), nullable=True),
+    sa.Column('lat', sa.Float(), nullable=True),
+    sa.Column('long', sa.Float(), nullable=True),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('receipt',
@@ -41,6 +45,7 @@ def upgrade():
     sa.Column('product_id', sa.Integer(), nullable=False),
     sa.Column('value', sa.Float(), nullable=False),
     sa.Column('qty', sa.Float(), nullable=False),
+    sa.Column('vat', sa.Float(), nullable=False),
     sa.ForeignKeyConstraint(['product_id'], ['product.id'], ),
     sa.ForeignKeyConstraint(['shop_id'], ['shop.id'], ),
     sa.PrimaryKeyConstraint('id')
