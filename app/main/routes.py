@@ -35,6 +35,6 @@ def product():
     return render_template('product.html', title='Product', form=form)
 
 
-@bp.route('/product', methods=['GET', 'POST'])
+@bp.route('/receipt', methods=['GET', 'POST'])
 def receipt():
     return render_template('receipt.html', title='Receipt')
