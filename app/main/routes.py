@@ -27,8 +27,8 @@ def shop():
 def product():
     form = EditProductForm()
     if form.validate_on_submit():
-        product = Product(name=form.name.data, description=form.description.data, price=form.price.data
-                          , qty=form.qty.data)
+        product = Product(name=form.name.data, category=form.category.data, price=form.price.data
+                          , qty=form.qty.data, subcategory=form.subcategory.data)
         db.session.add(product)
         db.session.commit()
         return redirect(url_for('main.index'))

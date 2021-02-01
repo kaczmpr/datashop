@@ -1,7 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, TextAreaField, IntegerField, FloatField
 from wtforms.validators import DataRequired, ValidationError, Length
-from app.models import Shop
 from flask import request
 
 
@@ -17,6 +16,8 @@ class EditShopForm(FlaskForm):
 
 class EditProductForm(FlaskForm):
     name = StringField('Name', validators=[DataRequired()])
-    description = StringField('Description', validators=[DataRequired()])
+    category = StringField('Category', validators=[DataRequired()])
     price = FloatField('Price', validators=[DataRequired()])
     qty = FloatField('Quantity', validators=[DataRequired()])
+    subcategory = StringField('Subcategory', validators=[DataRequired()])
+    submit = SubmitField('Submit')
