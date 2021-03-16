@@ -1,0 +1,21 @@
+{
+  "name":"SnowflakeConnector",
+  "config":{
+    "connector.class":"com.snowflake.kafka.connector.SnowflakeSinkConnector",
+    "tasks.max":"8",
+    "topics":"queing_receipts",
+    "snowflake.topic2table.map":"queing_receipts:receipts",
+    "buffer.count.records":"10000",
+    "buffer.flush.time":"10",
+    "buffer.size.bytes":"50000000",
+    "snowflake.url.name":"uu39760.west-europe.azure.snowflakecomputing.com:443",
+    "snowflake.user.name":"kafka_con",
+    "snowflake.private.key":"MIIEpAIBAAKCAQEAtHIndNIqDagNRZO8zLdZm/bej2p2ClIyRLHyqfHAnOLyKytp\nWBZqdyVfVGh7iud9EYX9H/NPBlEAnaqqaOVVLVYXTx4TNOrrc128ld4X2xDenuFD\ndl9gJg06lkfX183cKvpG59NfU0xMsHoK4RM0ml+zCf0YSPyq1K8CY4j2mFgqFWr9\nix5Yi+cF+q49UvbyiBHgVcGReH7RsUZ14l0umuw+Ph7t7NmLs8wV7suBKBBe0Sd+\nf3hAoE1eL1qA0Y2wVFN6op7dNTNMrgo6ETVhzYeo6SQP2ZmnF6FxGYkgC+hvvh44\n37Ibsj+AXCN0VjkhcTtjRl9lwQL7l0k2FvSRCQIDAQABAoIBAQCPEyRt4GYvxdwg\nGvBMceS/YZM+q+9EZ8Ar79y1G1baDqhtylIQ4lUwe5WG3AF5NetZBaCawNUb8QZH\n/ZZ47b4H4IdC2FnqT4q5Qs3RFvRbYpjh6UMQjLcz9LFLj1N5bWTxPtkR3+tppMn5\n9ArEQ/IlpVPUy7WBybW6RbnjKio8x/UMmFO5UMrZ6ic51Q1v8iltQY348eTqMr1n\nGYJufk/BfdhOhlWnYqFEzHF7G8Jinavxq8PkCJm1Wi6EQtLVTeGiyorzJnY9CNvB\nvzw0y3i6f/saDE9Q2fiPXasEUvf03uteOfR9DmHapPfwD8d4vh31zs2EnC17CEgd\n7zyUcRPBAoGBAOq/GKv03KB5i1AAVFB/TFlXzTuhv5aMkERjNBk7fZal20JgV/BM\n2VAxyip+0Ommm7UEi2lbcO7Flvt9tlYmWyi9aTGy2YWezAllspp8N9P7d3+mmhLb\nuqCz4ypPWBdo9GzJMC6YPTPpo12Mb1UfaaUDxL8r8LwtIE/chBS4rYNtAoGBAMTI\nfbWqVaQTmEL5XVZ8Np9CxuxXeCC8o6bQqx1qWk+oOZbF4XR2jtJM812OiWS7QMPQ\neTcOQEfzzHTzBN5EpON0kRtePEfJK5voOLwJiHQnWNQt6Oe0GwC/RDTEzVH7naOi\nKIijeCR+G4Ww02XHTnArvYbStsagzcllVAaHxSaNAoGAGxNVfifs9pluRxjyoKI+\nJSPqaRFb7rphvXGPxcVF1AVnR72jBvVmL0i+363m3Lw5w2Q1zD4exXuG0ZULXd5o\nr0dBhdjyG+ZX9FGFiyn+qnWbr96AcOJlITn+XpfuOi0B3DZMV2N5064ECLs08CWC\nYuUPYVlpF9tAmdV+aoFuifUCgYEApSHp/AzYmTuoRmukG/NYkwUikSpFsJMccdwh\n/ClHaBkvWorryyPCblAM2bHHMjTBAJFtZvoaj0bTiEB3EV5hUE59ho3p4AO9CLQz\nB/in/XEXZdaw39+P2Wyn+/A6rFWNz8dAZIlpRJZe2i2s+HfsJs1N2lnw73X5usvB\nW0mL8/ECgYBFrjyvcqtpQWH8FlO/gI5KOhqJXGoegiR+jZQUjCebMVlBeWuSGaF1\n/q0oM0BTvmRZ/9osw85/CemQLpVPd3OK5FD10mg8x2awJyXt8qpohjT7r82cDExg\nES830Fe4GOYTplcG8nDRP9Ms8SB3DjcUAnFZAyEPH0efQJCjbdoC/w==",
+    "snowflake.database.name":"DATASHOP_DB",
+    "snowflake.schema.name":"DEVELOP",
+    "key.converter":"org.apache.kafka.connect.storage.StringConverter",
+    "value.converter":"com.snowflake.kafka.connector.records.SnowflakeJsonConverter",
+	"value.converter.schema.registry.url":"http://kafka:8081",
+	"value.converter.schemas.enable":"false"
+  }
+}

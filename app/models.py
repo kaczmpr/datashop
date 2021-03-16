@@ -73,7 +73,6 @@ class Receipt(db.Model):
     product_id: int
     value: float
     qty: float
-    vat: float
 
     __tablename__ = 'receipt'
     id = db.Column(db.Integer, Sequence('seq_receipt'), primary_key=True)
@@ -82,15 +81,19 @@ class Receipt(db.Model):
     product_id = db.Column(db.Integer, db.ForeignKey('product.id'), nullable=False)
     value = db.Column(db.Float, nullable=False)
     qty = db.Column(db.Float, nullable=False)
-    vat = db.Column(db.Float, nullable=False)
 
-    def __init__(self, shop_id, datetime, product_id, value, qty, vat):
+    def __init__(self, shop_id, datetime, product_id, value, qty):
         self.shop_id = shop_id
         self.datetime = datetime
         self.product_id = product_id
         self.value = value
         self.qty = qty
-        self.vat = vat
 
     def __repr__(self):
         return '<Receipt {id}>'.format(id=self.id)
+
+    def __iter__(self):
+        iters = dict((x, y) for x,y in Receipt.__dict__.items() if x[:2] != '__')
+        iters.update(self.__dict__)
+        for x, y in iters.items():
+            yield x, y

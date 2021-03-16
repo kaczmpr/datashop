@@ -1,8 +1,11 @@
-from flask import jsonify, render_template, url_for, request, current_app, redirect
-from app import db
+from flask import jsonify, render_template, url_for, request, current_app, redirect, Response
+from app import db, create_app
 from app.main import bp
-from app.models import Product, Shop
+from app.models import Product, Shop, Receipt
 from app.main.forms import EditShopForm, EditProductForm
+import json
+from kafka import KafkaConsumer
+import ast
 
 
 @bp.route('/', methods=['GET','POST'])
@@ -38,3 +41,26 @@ def product():
 @bp.route('/receipt', methods=['GET', 'POST'])
 def receipt():
     return render_template('receipt.html', title='Receipt')
+
+
+@bp.route('/dashboard', methods=['GET'])
+def dashboard():
+    return render_template('dashboard.html', title='Dashboards')
+
+
+@bp.route('/chart-data')
+def chart_data():
+    consumer = KafkaConsumer('numtest', bootstrap_servers=['localhost:9092'], auto_offset_reset='earliest',
+                             enable_auto_commit=True, group_id='my-group-flask',
+                             value_deserializer=lambda x: json.loads(x.decode('utf-8')))
+
+    def generate_random_data():
+        for message in consumer:
+            message = message.value
+            data = ast.literal_eval(message)
+            receipt = Receipt(data.get('shop_id'), data.get('datetime'), data.get('product_id'), data.get('value'),
+                              data.get('qty'))
+            json_data = json.dumps({'time': receipt.datetime, 'value': receipt.value, 'shop_id': receipt.shop_id})
+            yield f"data:{json_data}\n\n"
+
+    return Response(generate_random_data(), mimetype='text/event-stream')
